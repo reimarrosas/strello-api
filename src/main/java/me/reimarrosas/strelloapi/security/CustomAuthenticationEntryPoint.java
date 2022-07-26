@@ -1,6 +1,5 @@
 package me.reimarrosas.strelloapi.security;
 
-import me.reimarrosas.strelloapi.utils.HttpJsonResponse;
 import me.reimarrosas.strelloapi.utils.ResponsePayload;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -13,7 +12,7 @@ import java.io.IOException;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        HttpJsonResponse.createJsonResponse(
+        ResponsePayload.createJsonResponse(
                 response,
                 401,
                 ResponsePayload.builder()

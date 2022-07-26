@@ -1,13 +1,14 @@
 package me.reimarrosas.strelloapi.domain.base.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id

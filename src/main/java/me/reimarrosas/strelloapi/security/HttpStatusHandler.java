@@ -1,6 +1,5 @@
 package me.reimarrosas.strelloapi.security;
 
-import me.reimarrosas.strelloapi.utils.HttpJsonResponse;
 import me.reimarrosas.strelloapi.utils.ResponsePayload;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class HttpStatusHandler implements AuthenticationFailureHandler, AuthenticationSuccessHandler, LogoutSuccessHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        HttpJsonResponse.createJsonResponse(
+        ResponsePayload.createJsonResponse(
                 response,
                 401,
                 ResponsePayload.builder()
@@ -29,7 +28,7 @@ public class HttpStatusHandler implements AuthenticationFailureHandler, Authenti
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        HttpJsonResponse.createJsonResponse(
+        ResponsePayload.createJsonResponse(
                 response,
                 200,
                 ResponsePayload
@@ -42,7 +41,7 @@ public class HttpStatusHandler implements AuthenticationFailureHandler, Authenti
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        HttpJsonResponse.createJsonResponse(
+        ResponsePayload.createJsonResponse(
                 response,
                 200,
                 ResponsePayload

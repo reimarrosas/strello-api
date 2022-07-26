@@ -1,5 +1,6 @@
 package me.reimarrosas.strelloapi.exceptionhandler;
 
+import me.reimarrosas.strelloapi.exception.HttpForbiddenException;
 import me.reimarrosas.strelloapi.utils.ResponsePayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -27,6 +28,16 @@ public class HttpExceptionHandler {
                 .message("Malformed signup payload!")
                 .success(false)
                 .payload(errors)
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(HttpForbiddenException.class)
+    public ResponsePayload handleForbiddenException(HttpForbiddenException ex) {
+        return ResponsePayload.builder()
+                .message("Access forbidden!")
+                .success(false)
+                .payload(ex.getMessage())
                 .build();
     }
 }
