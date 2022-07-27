@@ -6,7 +6,10 @@ import me.reimarrosas.strelloapi.domain.project.dto.ProjectDto;
 import me.reimarrosas.strelloapi.domain.project.entity.ProjectEntity;
 import me.reimarrosas.strelloapi.domain.project.repository.ProjectRepository;
 import me.reimarrosas.strelloapi.domain.project.repository.ProjectSpecifications;
+import me.reimarrosas.strelloapi.domain.user.dto.UsernameDto;
+import me.reimarrosas.strelloapi.domain.user.repository.UserRepository;
 import me.reimarrosas.strelloapi.exception.HttpForbiddenException;
+import me.reimarrosas.strelloapi.exception.HttpNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +23,7 @@ import static me.reimarrosas.strelloapi.domain.user.service.UserService.getCurre
 @RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public void createUserProject(ProjectDto dto) {
         var newProject = ProjectMapper.INSTANCE.srcToDest(dto);
@@ -45,6 +49,15 @@ public class ProjectService {
 
     public void deleteUserProject(Long id) {
         projectRepository.delete(authorizedFindOneProject(id));
+    }
+
+    public void addUserAccessToProject(Long id, UsernameDto dto) {
+        var project = authorizedFindOneProject(id);
+        var userToBeAdded = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new HttpNotFoundException("User " + dto.getEmail() + " not found!"));
+
+        project.getAllowedUsers().add(userToBeAdded);
+        projectRepository.save(project);
     }
 
     private ProjectEntity authorizedFindOneProject(Long id) throws HttpForbiddenException {

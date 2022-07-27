@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.reimarrosas.strelloapi.domain.project.dto.ProjectDto;
 import me.reimarrosas.strelloapi.domain.project.mapper.ProjectResponseMapper;
 import me.reimarrosas.strelloapi.domain.project.service.ProjectService;
+import me.reimarrosas.strelloapi.domain.user.dto.UsernameDto;
 import me.reimarrosas.strelloapi.utils.ResponsePayload;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,16 @@ public class ProjectController {
 
         return ResponsePayload.builder()
                 .message("User project " + id + " deleted successfully!")
+                .success(true)
+                .build();
+    }
+
+    @PostMapping("/{id}")
+    public ResponsePayload addUserAccessToProject(@PathVariable Long id, @Valid @RequestBody UsernameDto dto) {
+        projectService.addUserAccessToProject(id, dto);
+
+        return ResponsePayload.builder()
+                .message("User " + dto.getEmail() + " added successfully to project " + id + "!")
                 .success(true)
                 .build();
     }
