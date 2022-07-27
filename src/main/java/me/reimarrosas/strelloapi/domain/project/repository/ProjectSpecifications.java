@@ -10,4 +10,11 @@ public class ProjectSpecifications {
                 root.join("allowedUsers").get("id"), UserService.getCurrentUser().getId()
         );
     }
+
+    public static Specification<ProjectEntity> isOwnedByCurrentUser(Long id) {
+        return (root, query, cb) -> cb.and(
+                cb.equal(root.get("id"), id),
+                cb.equal(root.join("allowedUsers").get("id"), UserService.getCurrentUser().getId())
+        );
+    }
 }

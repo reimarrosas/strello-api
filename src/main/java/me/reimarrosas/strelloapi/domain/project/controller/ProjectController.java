@@ -23,12 +23,33 @@ public class ProjectController {
                 .payload(ProjectResponseMapper.INSTANCE.destToSrc(projectService.getUserProjects()))
                 .build();
     }
+
     @PostMapping
     public ResponsePayload createUserProject(@Valid @RequestBody ProjectDto dto) {
         projectService.createUserProject(dto);
 
         return ResponsePayload.builder()
-                .message("User project successfully created!")
+                .message("User project created successfully!")
+                .success(true)
+                .build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponsePayload updateUserProject(@PathVariable Long id, @Valid @RequestBody ProjectDto dto) {
+        projectService.updateUserProject(id, dto);
+
+        return ResponsePayload.builder()
+                .message("User project " + id + " updated successfully!")
+                .success(true)
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponsePayload deleteUserProject(@PathVariable Long id) {
+        projectService.deleteUserProject(id);
+
+        return ResponsePayload.builder()
+                .message("User project " + id + " deleted successfully!")
                 .success(true)
                 .build();
     }
